@@ -24,27 +24,45 @@
 $(document).ready(function () {
 
     $(".click").click(function () {
-        var valore = $(".ricerca").val();
-        $.ajax(
-            {
-                url: "https://api.themoviedb.org/3/search/movie",
-                method: "GET",
-                data:{
-                    api_key: "fc7c0e02622e256aa5848719a009286b",
-                    query: valore,
-                    language: "it-IT",
-                },
-                success: function (risposta) {
-                    $(".lista-film").empty();
-                    var results = risposta.results;
-                    console.log(results);
+
+            var valore = $(".ricerca").val();
+            trovaFilm(valore);
+
+    })
+
+})
+
+// FUNZIONI
+
+function trovaFilm(data) {
+    $.ajax(
+        {
+            url: "https://api.themoviedb.org/3/search/movie",
+            method: "GET",
+            data:{
+                api_key: "fc7c0e02622e256aa5848719a009286b",  //parametro obbligatorio
+                query: data,                                  //parametro obbligatorio. Importante ai fini dell'esercizio in quanto sostituisco il valore con quello scritto nell'input
+                language: "it-IT"                             //parametro necessario per la consegna
+            },
+            success: function (risposta) {
+                $(".lista-film").empty();
+                var results = risposta.results;
+                if (results.length == 0) {     // se la lunghezza dell'array è 0 non ci sono oggetti quindi compare il messaggio
+                    var source = $('#nullo-template').html();
+                    var template = Handlebars.compile(source);
+                    var context = {
+                        not_found: data
+                    };
+                    var html = template(context);
+                    $(".lista-film").append(html);
+                } else {
                     var source = $('#entry-template').html();
- 	                var template = Handlebars.compile(source);
+                    var template = Handlebars.compile(source);
                     for (var i = 0; i < results.length; i++) {
-                        var film = results[i];
-                        var context = {
-                            title: film.title,
-                            title: film.original_title,
+                        var film = results[i];  //salvo in una variabile l' oggetto trovato ogni ciclo
+                        var context = {         //utilizzo le chiavi/valore che mi servono per compilare il template HB
+                            title: film.title,  //la chiave è il segnaposto di HB il valore è riferito all'oggetto
+                            or_title: film.original_title,
                             language: film.original_language,
                             vote: film.vote_average
                         };
@@ -52,9 +70,13 @@ $(document).ready(function () {
                         $(".lista-film").append(html);
                     }
                 }
-
+                $(".ricerca").val("");
+            },
+            error: function () {
+                //Tolto "alert" perchè se faccio la ricerca senza aver digitato nella barra esce l'alert e non mi piace
+                // alert("E' avvenuto un errore");
             }
-        )
-    })
 
-})
+        }
+    )
+}
