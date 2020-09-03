@@ -23,15 +23,23 @@
 
 $(document).ready(function () {
 
-    $(".click").click(function () {
 
+
+    $(".click").click(function () {
+        var valore = $(".ricerca").val();
+        trovaFilm(valore);
+        reset();
+    });
+
+    $(".ricerca").keydown(function(){
+        if ( event.which == 13 || event.keycode == 13){
             var valore = $(".ricerca").val();
             trovaFilm(valore);
             reset();
+        }
+    });
 
-    })
-
-})
+});
 
 // FUNZIONI
 
@@ -48,7 +56,7 @@ function trovaFilm(data) {
             success: function (risposta) {
                 if (risposta.total_results > 0) {
                     printFilm(risposta.results);
-                } else {                    
+                } else {
                     noResults(data);
                 }
             },
@@ -68,8 +76,9 @@ function printFilm(data) {
         var context = {         //utilizzo le chiavi/valore che mi servono per compilare il template HB
             title: film.title,  //la chiave è il segnaposto di HB il valore è riferito all'oggetto
             or_title: film.original_title,
-            language: film.original_language,
-            vote: stars(film.vote_average)
+            language: flag(film.original_language),
+            vote: stars(film.vote_average),
+            tipo: "Film"
         };
         var html = template(context);
         $(".lista-film").append(html);
@@ -86,7 +95,19 @@ function stars(num) {
             star += '<i class="far fa-star"></i>';
         }
     }
-    return star;
+    return star; // deve ritornare ciò che ho costruito nelle righe precedenti della funzione
+}
+
+function flag(lingua) {
+    var bandiere = [
+        "en",
+        "it"
+    ];
+    if (bandiere.includes(lingua)) {
+        var flag = '<img class="flag" src="'+ "img/" + lingua + ".png" + '" alt="' + lingua + '">';
+        return flag;
+    }
+    return lingua;
 }
 
 function reset() {
