@@ -4,6 +4,14 @@
    box-sizing: border-box;
 } */
 
+.fas.fa-star{
+    color: gold;
+}
+
+.far.fa-star{
+    color: lightgrey;   
+}
+
 .flag {
     width: 20px;
     height: 12px;
