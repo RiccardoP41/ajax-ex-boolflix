@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="css/style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
     </head>
     <body>
         <input class="ricerca" type="text" name="" value="" placeholder="Titolo">
@@ -20,13 +21,13 @@
               <li>Titolo: {{title}} </li>
               <li>Titolo originale: {{or_title}}</li>
               <li>Lingua: {{language}}</li>
-              <li>Voto: {{vote}}</li>
+              <li>Voto: {{{vote}}}</li>
           </ul>
         </script>
 
         <!-- NOT FOUND -->
         <script id="nullo-template" type="text/x-handlebars-template">
-          <h3>La ricerca non ha dato risultati per '{{not_found}}'</h3>
+          <h3>La ricerca non ha prodotto risultati per '{{not_found}}'</h3>
         </script>
 
         <script src="js/script.js" charset="utf-8"></script>

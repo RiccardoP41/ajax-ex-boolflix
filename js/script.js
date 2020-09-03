@@ -27,6 +27,7 @@ $(document).ready(function () {
 
             var valore = $(".ricerca").val();
             trovaFilm(valore);
+            reset();
 
     })
 
@@ -41,42 +42,64 @@ function trovaFilm(data) {
             method: "GET",
             data:{
                 api_key: "fc7c0e02622e256aa5848719a009286b",  //parametro obbligatorio
-                query: data,                                  //parametro obbligatorio. Importante ai fini dell'esercizio in quanto sostituisco il valore con quello scritto nell'input
+                query: data,                                  //parametro obbligatorio. Importante ai fini dell'esercizio in quanto sostituisco il valore con quello scri
                 language: "it-IT"                             //parametro necessario per la consegna
             },
             success: function (risposta) {
-                $(".lista-film").empty();
-                var results = risposta.results;
-                if (results.length == 0) {     // se la lunghezza dell'array è 0 non ci sono oggetti quindi compare il messaggio
-                    var source = $('#nullo-template').html();
-                    var template = Handlebars.compile(source);
-                    var context = {
-                        not_found: data
-                    };
-                    var html = template(context);
-                    $(".lista-film").append(html);
-                } else {
-                    var source = $('#entry-template').html();
-                    var template = Handlebars.compile(source);
-                    for (var i = 0; i < results.length; i++) {
-                        var film = results[i];  //salvo in una variabile l' oggetto trovato ogni ciclo
-                        var context = {         //utilizzo le chiavi/valore che mi servono per compilare il template HB
-                            title: film.title,  //la chiave è il segnaposto di HB il valore è riferito all'oggetto
-                            or_title: film.original_title,
-                            language: film.original_language,
-                            vote: film.vote_average
-                        };
-                        var html = template(context);
-                        $(".lista-film").append(html);
-                    }
+                if (risposta.total_results > 0) {
+                    printFilm(risposta.results);
+                } else {                    
+                    noResults(data);
                 }
-                $(".ricerca").val("");
             },
             error: function () {
-                //Tolto "alert" perchè se faccio la ricerca senza aver digitato nella barra esce l'alert e non mi piace
                 // alert("E' avvenuto un errore");
             }
 
         }
     )
+}
+
+function printFilm(data) {
+    var source = $('#entry-template').html();
+    var template = Handlebars.compile(source);
+    for (var i = 0; i < data.length; i++) {
+        var film = data[i];  //salvo in una variabile l' oggetto trovato ogni ciclo
+        var context = {         //utilizzo le chiavi/valore che mi servono per compilare il template HB
+            title: film.title,  //la chiave è il segnaposto di HB il valore è riferito all'oggetto
+            or_title: film.original_title,
+            language: film.original_language,
+            vote: stars(film.vote_average)
+        };
+        var html = template(context);
+        $(".lista-film").append(html);
+    }
+}
+
+function stars(num) {
+    var arr = Math.ceil(num / 2); //arrotondo per eccesso la metà del voto
+    var star = "";
+    for (var i = 0; i < 5; i++) { //inserisco 5 stelle col ciclo
+        if (i < arr) {  //mentre cicla, se "i" è minore del risultato dell'arrotondamento mette una stella piena
+            star += '<i class="fas fa-star"></i>';
+        } else {        //mentre cicla, se "i" è maggiore del risultato dell'arrotondamento mette una stella vuota
+            star += '<i class="far fa-star"></i>';
+        }
+    }
+    return star;
+}
+
+function reset() {
+    $(".lista-film").empty();
+    $(".ricerca").val("");
+}
+
+function noResults(val) {
+    var source = $('#nullo-template').html();
+    var template = Handlebars.compile(source);
+    var context = {
+        not_found: val
+    };
+    var html = template(context);
+    $(".lista-film").append(html);
 }
