@@ -40,12 +40,10 @@ function trova(data, url, tipo) {
             },
             success: function (risposta) {
                 if (risposta.total_results > 0) {
-
                     print(risposta.results, tipo);
                 } else {
                     noResults(data);
                 }
-                console.log(risposta.results);
             },
             error: function () {
                 // alert("E' avvenuto un errore");
@@ -61,6 +59,7 @@ function print(data, tipo) {
     for (var i = 0; i < data.length; i++) {
         var film = data[i];  //salvo in una variabile l' oggetto trovato ogni ciclo
         var context = {         //utilizzo le chiavi/valore che mi servono per compilare il template HB
+            poster: poster(film.poster_path),
             title: film.title ||  film.name, //la chiave è il segnaposto di HB il valore è riferito all'oggetto
             or_title: film.original_title || film.original_name,
             language: flag(film.original_language),
@@ -72,47 +71,15 @@ function print(data, tipo) {
     }
 }
 
-// function trovaSerie(data) {
-//     $.ajax(
-//         {
-//             url: "https://api.themoviedb.org/3/search/tv",
-//             method: "GET",
-//             data:{
-//                 api_key: "fc7c0e02622e256aa5848719a009286b",  //parametro obbligatorio
-//                 query: data,                                  //parametro obbligatorio. Importante ai fini dell'esercizio in quanto sostituisco il valore con quello scri
-//                 language: "it-IT"                             //parametro necessario per la consegna
-//             },
-//             success: function (risposta) {
-//                 if (risposta.total_results > 0) {
-//                     printSerie(risposta.results);
-//                 } else {
-//                     noResults(data);
-//                 }
-//             },
-//             error: function () {
-//                 // alert("E' avvenuto un errore");
-//             }
-//
-//         }
-//     )
-// }
-//
-// function printSerie(data) {
-//     var source = $('#entry-template').html();
-//     var template = Handlebars.compile(source);
-//     for (var i = 0; i < data.length; i++) {
-//         var film = data[i];  //salvo in una variabile l' oggetto trovato ogni ciclo
-//         var context = {         //utilizzo le chiavi/valore che mi servono per compilare il template HB
-//             title: film.name,  //la chiave è il segnaposto di HB il valore è riferito all'oggetto
-//             or_title: film.original_name,
-//             language: flag(film.original_language),
-//             vote: stars(film.vote_average),
-//             tipo: "Serie"
-//         };
-//         var html = template(context);
-//         $(".lista-film").append(html);
-//     }
-// }
+function poster(poster) {
+    var urlImg = "https:image.tmdb.org/t/p/w342";
+    if (poster != null) {
+        urlImg += poster;
+    } else {
+        urlImg = "https://as1.ftcdn.net/jpg/00/47/06/72/500_F_47067245_Hqq8InglnMjoylxFJJo7DBfxcCd899FG.jpg";
+    }
+    return urlImg;
+}
 
 function stars(num) {
     var arr = Math.ceil(num / 2); //arrotondo per eccesso la metà del voto
@@ -141,6 +108,7 @@ function flag(lingua) {
 
 function reset() {
     $(".lista-film").empty();
+    $(".no-risultati").empty();
     $(".ricerca").val("");
 }
 
@@ -151,5 +119,5 @@ function noResults(val) {
         not_found: val
     };
     var html = template(context);
-    $(".lista-film").html(html);
+    $(".no-risultati").html(html);
 }

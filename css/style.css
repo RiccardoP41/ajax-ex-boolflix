@@ -1,15 +1,138 @@
-/* * {
+* {
    margin: 0;
    padding: 0;
    box-sizing: border-box;
-} */
+   font-family: 'Merriweather Sans', sans-serif;
+}
 
-.fas.fa-star{
+body{
+    background-color: rgb(40,40,40);
+    color: white;
+}
+
+header{
+    background-color: black;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    z-index: 10000;
+}
+
+.logo {
+    height: 30px;
+    width: auto;
+}
+
+.logo:hover {
+    cursor: pointer;
+}
+
+.search {
+    background-color: white;
+    border-radius: 40px;
+    padding-right: 10px;
+}
+
+.ricerca {
+    padding: 0 10px;
+    border-radius: 40px;
+    border: 1px solid white;
+}
+
+.click {
+    background-color: inherit;
+    border-style: none;
+ }
+
+.click :hover {
+    cursor: pointer;
+}
+
+main {
+    margin-top: 80px;
+    padding: 30px;
+}
+
+.lista-film {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    margin: 30px 15px;
+    width: 200px;
+    height: 345px;
+    background-color: black;
+    position: relative;
+}
+
+.card:hover .fronte {
+    transition: opacity 1s;
+    opacity: 0;
+}
+
+.card:hover .retro {
+    border: 1px solid red;
+}
+
+.fronte {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: black;
+}
+
+.poster {
+    width: 200px;
+    height: 300px;
+}
+
+.f-titolo {
+    width: 100%;
+    height: 45px;
+    overflow: hidden;
+    font-size: 17px;
+}
+
+.retro {
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+    padding: 5px;
+}
+
+.retro ul{
+    list-style: none;
+}
+
+.retro ul li{
+    color: grey;
+    font-weight: bold;
+}
+
+.retro ul li span {
+    font-weight: lighter;
+    font-style: oblique;
+    color: white;
+}
+
+
+.fas.fa-star {
     color: gold;
 }
 
 .far.fa-star{
-    color: lightgrey;   
+    color: lightgrey;
 }
 
 .flag {

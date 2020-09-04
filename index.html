@@ -4,26 +4,49 @@
         <meta charset="utf-8">
         <title>Boolflix</title>
         <link rel="stylesheet" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans&display=swap" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
     </head>
     <body>
-        <input class="ricerca" type="text" name="" value="" placeholder="Titolo">
-        <button class="click" type="button" name="button">Search</button>
-        <div class="lista-film"></div>
+        <header>
+            <img  class="logo" src="https://i.ibb.co/9rq9pVh/netflix-log.png" alt="">
+            <div class="search">
+                <input class="ricerca" type="text" name="" value="" placeholder="Cerca titolo">
+                <button class="click" type="button" name="button"><i class="fas fa-search"></i></button>
+            </div>
+        </header>
+        <main>
+            <div class="lista-film"></div>
+            <div class="no-risultati"></div>
+        </main>
+
+
 
 <!-- HB template -->
         <!-- FOUND-->
         <script id="entry-template" type="text/x-handlebars-template">
-          <ul>
-              <li>Titolo: {{title}} </li>
-              <li>Titolo originale: {{or_title}}</li>
-              <li>Lingua: {{{language}}}</li>
-              <li>Voto: {{{vote}}}</li>
-              <li>Tipo: {{tipo}}</li>
+          <div class="card">
+              <div class="fronte">
+                  <div class="immagine">
+                      <img class="poster" src="{{{poster}}}" alt="">
+                      <div class="f-titolo">
+                          <p>{{title}}</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="retro">
+                  <ul>
+                      <li>Titolo: <span> {{title}}</span></li>
+                      <li>Titolo originale: <span> {{or_title}}</span></li>
+                      <li>Lingua: <span> {{{language}}}</span></li>
+                      <li>Voto: <span> {{{vote}}}</span></li>
+                      <li>Tipologia: <span> {{tipo}}</span></li>
+                  </ul>
+              </div>
+          </div>
 
-          </ul>
         </script>
 
         <!-- NOT FOUND -->
@@ -32,5 +55,6 @@
         </script>
 
         <script src="js/script.js" charset="utf-8"></script>
+
     </body>
 </html>
