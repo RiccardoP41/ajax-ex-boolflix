@@ -68,14 +68,14 @@ main {
 .card {
     margin: 30px 15px;
     width: 200px;
-    height: 345px;
+    height: 355px;
     background-color: black;
     position: relative;
 }
 
 .card:hover .fronte {
     transition: opacity 1s;
-    opacity: 0;
+    opacity: 0.1;
 }
 
 .card:hover .retro {
@@ -99,10 +99,11 @@ main {
 
 .f-titolo {
     width: 100%;
-    height: 45px;
+    height: 50px;
     overflow: hidden;
-    font-size: 17px;
+    font-size: 19px;
 }
+
 
 .retro {
     width: 100%;
@@ -131,8 +132,12 @@ main {
     color: gold;
 }
 
+.fas.fa-star-half-alt {
+    color: gold;
+}
+
 .far.fa-star{
-    color: lightgrey;
+    color: gold;
 }
 
 .flag {

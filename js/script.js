@@ -41,8 +41,16 @@ function trova(data, url, tipo) {
             success: function (risposta) {
                 if (risposta.total_results > 0) {
                     print(risposta.results, tipo);
-                } else {
-                    noResults(data);
+                } else if (tipo == "Serie") {
+                    var elementi = $(".lista-film").html();
+                    if (elementi == "") {
+                        noResults(data);
+                    }
+                }  else if (tipo == "Tv") {
+                    var elementi = $(".lista-film").html();
+                    if (elementi == "") {
+                        noResults(data);
+                    }
                 }
             },
             error: function () {
@@ -58,13 +66,15 @@ function print(data, tipo) {
     var template = Handlebars.compile(source);
     for (var i = 0; i < data.length; i++) {
         var film = data[i];  //salvo in una variabile l' oggetto trovato ogni ciclo
+        var overview = film.overview.substring(0,300);
         var context = {         //utilizzo le chiavi/valore che mi servono per compilare il template HB
             poster: poster(film.poster_path),
             title: film.title ||  film.name, //la chiave è il segnaposto di HB il valore è riferito all'oggetto
             or_title: film.original_title || film.original_name,
             language: flag(film.original_language),
             vote: stars(film.vote_average),
-            tipo: tipo
+            tipo: tipo,
+            overview: overview + "..."
         };
         var html = template(context);
         $(".lista-film").append(html);
@@ -82,11 +92,15 @@ function poster(poster) {
 }
 
 function stars(num) {
-    var arr = Math.ceil(num / 2); //arrotondo per eccesso la metà del voto
+    var resto = num % 2;
+    var arr = Math.floor(num / 2); //arrotondo per eccesso la metà del voto
     var star = "";
     for (var i = 0; i < 5; i++) { //inserisco 5 stelle col ciclo
         if (i < arr) {  //mentre cicla, se "i" è minore del risultato dell'arrotondamento mette una stella piena
             star += '<i class="fas fa-star"></i>';
+        } else if (resto != 0 ) {
+            star += '<i class="fas fa-star-half-alt"></i>'
+            resto = 0;
         } else {        //mentre cicla, se "i" è maggiore del risultato dell'arrotondamento mette una stella vuota
             star += '<i class="far fa-star"></i>';
         }
